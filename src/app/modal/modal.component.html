@@ -1,0 +1,13 @@
+<div class="modal-container" *ngIf="display">
+    <div class="modal-container-content">
+        <div class="modal-container-header">
+            <h4 class="modal-container-header__title">
+                {{title}}
+            </h4>
+            <mat-icon (click)="toggleModal()">close</mat-icon>
+        </div>
+        <div class="modal-container-body">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

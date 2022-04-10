@@ -1,0 +1,123 @@
+<div class="client-dashboard-container">
+
+    <div class="client-dashboard-header">
+        <div class="client-dashboard-header__search">
+            <mat-icon>search</mat-icon>
+            <input type="text" placeholder="Buscar cliente" class="client-dashboard-header__searchbar" name="search"
+                [(ngModel)]="searchText">
+        </div>
+        <mat-icon (click)="modalCreate.toggleModal()">person_add</mat-icon>
+    </div>
+
+    <div class="client-dashboard-body">
+        <table class="client-dashboard-body__table">
+            <tr>
+                <th>Cliente</th>
+                <th>RFC</th>
+                <th>Telefono</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+            <tr *ngFor="let client of clients | filter:searchText">
+                <td>{{client.nombre}} {{client.apellido_paterno}} {{client.apellido_materno}}</td>
+                <td>{{client.rfc}}</td>
+                <td>{{client.telefono}}</td>
+                <td>{{client.email}}</td>
+                <td class="table-action-icons">
+                    <mat-icon class="table-action-icons__edit"
+                        (click)="setClientValues(client); modalUpdate.toggleModal()">edit</mat-icon>
+                    <mat-icon class="table-action-icons__delete" (click)="modalDelete.toggleModal()">delete</mat-icon>
+
+                    <app-modal #modalDelete [title]="'¿Estas seguro que deseas eliminar el registro?'">
+                        <div class="delete-buttons">
+                            <button class="delete-button" (click)="clientDelete(client.id)">Eliminar</button>
+                            <button class="cancel-button" (click)="modalDelete.toggleModal()">Cancelar</button>
+                        </div>
+                    </app-modal>
+                    <app-modal #modalUpdate [title]="'Editar cliente'">
+                        <div class="form-container">
+                            <form class="form-client" [formGroup]="createClientForm"
+                                (ngSubmit)="clientUpdate(client.id)">
+                                <input type="text" placeholder="Nombre" name="nombre" formControlName="nombre">
+                                <span *ngIf="nombre && nombre.invalid && nombre.touched">Este campo es invalido</span>
+
+                                <input type="text" placeholder="Apellido Paterno" name="apellido_paterno"
+                                    formControlName="apellido_paterno">
+                                <span
+                                    *ngIf="apellido_paterno && apellido_paterno.invalid && apellido_paterno.touched">Este
+                                    campo es
+                                    invalido</span>
+
+                                <input type="text" placeholder="Apellido Materno" name="apellido_materno"
+                                    formControlName="apellido_materno">
+                                <span
+                                    *ngIf="apellido_materno && apellido_materno.invalid && apellido_materno.touched">Este
+                                    campo es
+                                    invalido</span>
+
+                                <input type="text" placeholder="RFC" name="rfc" formControlName="rfc">
+                                <span *ngIf="rfc && rfc.invalid && rfc.touched">Ingrese un RFC invalido</span>
+
+                                <input type="text" placeholder="Telefono" name="telefono" formControlName="telefono">
+                                <span *ngIf="telefono && telefono.invalid && telefono.touched">Ingrese un numero
+                                    valido</span>
+
+                                <input type="text" placeholder="Email" name="email" formControlName="email">
+                                <span *ngIf="email && email.invalid && email.touched">Ingrese un email valido</span>
+
+                                <input type="text" placeholder="Codigo postal" name="codigo_postal"
+                                    formControlName="codigo_postal">
+                                <span *ngIf="codigo_postal && codigo_postal.invalid && codigo_postal.touched">Este campo
+                                    es
+                                    invalido</span>
+
+                                <input type="text" placeholder="Direccion" name="direccion" formControlName="direccion">
+
+                                <button [disabled]="createClientForm.invalid"
+                                    class="send-client-button">Actualizar</button>
+                            </form>
+                        </div>
+                    </app-modal>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <app-modal #modalCreate [title]="'Registrar un cliente al catalogo'">
+        <div class="form-container">
+            <form class="form-client" [formGroup]="createClientForm" (ngSubmit)="clientRegister()">
+                <input type="text" placeholder="Nombre" name="nombre" formControlName="nombre">
+                <span *ngIf="nombre && nombre.invalid && nombre.touched">Este campo es invalido</span>
+
+                <input type="text" placeholder="Apellido Paterno" name="apellido_paterno"
+                    formControlName="apellido_paterno">
+                <span *ngIf="apellido_paterno && apellido_paterno.invalid && apellido_paterno.touched">Este campo es
+                    invalido</span>
+
+                <input type="text" placeholder="Apellido Materno" name="apellido_materno"
+                    formControlName="apellido_materno">
+                <span *ngIf="apellido_materno && apellido_materno.invalid && apellido_materno.touched">Este campo es
+                    invalido</span>
+
+                <input type="text" placeholder="RFC" name="rfc" formControlName="rfc">
+                <span *ngIf="rfc && rfc.invalid && rfc.touched">Ingrese un RFC invalido</span>
+
+                <input type="text" placeholder="Telefono" name="telefono" formControlName="telefono">
+                <span *ngIf="telefono && telefono.invalid && telefono.touched">Ingrese un numero valido</span>
+
+                <input type="text" placeholder="Email" name="email" formControlName="email">
+                <span *ngIf="email && email.invalid && email.touched">Ingrese un email valido</span>
+
+                <input type="text" placeholder="Codigo postal" name="codigo_postal" formControlName="codigo_postal">
+                <span *ngIf="codigo_postal && codigo_postal.invalid && codigo_postal.touched">Este campo es
+                    invalido</span>
+
+                <input type="text" placeholder="Direccion" name="direccion" formControlName="direccion">
+
+                <button [disabled]="createClientForm.invalid" class="send-client-button">Enviar</button>
+            </form>
+        </div>
+    </app-modal>
+
+
+</div>
